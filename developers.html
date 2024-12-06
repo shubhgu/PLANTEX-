@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thank You for Your Order!</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #4caf50;
+      color: white;
+      text-align: center;
+      padding: 50px;
+    }
+
+    h1 {
+      font-size: 48px;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      font-size: 24px;
+      margin-top: 10px;
+    }
+
+    .developer {
+      font-size: 30px;
+      margin-top: 20px;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    .emoji {
+      font-size: 36px;
+    }
+
+    .developer img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      margin-top: 10px;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+  <h1>Thank You for Your Order! 🌱</h1>
+
+  <div id="developers-container"></div>
+
+  <script>
+    // Developer names and their images
+    const developers = [
+      { name: "NS SHUBH GUPTA", emoji: "👑", image: "https://via.placeholder.com/100?text=NS" },
+      { name: "Shadab Husain", emoji: "👑", image: "https://via.placeholder.com/100?text=SH" },
+      { name: "Satyam Singh", emoji: "👑", image: "https://via.placeholder.com/100?text=SS" },
+      { name: "Sarthak Panwar", emoji: "👑", image: "https://via.placeholder.com/100?text=SP" },
+      { name: "Shivam Sharma", emoji: "👑", image: "https://via.placeholder.com/100?text=SS" }
+    ];
+
+    // Function to display each developer's name with emoji and photo
+    function displayDevelopers() {
+      const container = document.getElementById("developers-container");
+
+      developers.forEach((developer, index) => {
+        setTimeout(() => {
+          const developerDiv = document.createElement("div");
+          developerDiv.className = "developer";
+
+          developerDiv.innerHTML = `
+            <span class="emoji">${developer.emoji}</span>
+            <h2>${developer.name}</h2>
+            <img src="${developer.image}" alt="${developer.name}">
+          `;
+
+          container.appendChild(developerDiv);
+        }, index * 1500); // Delay each name by 1.5 seconds
+      });
+    }
+
+    // Display developers on page load
+    window.onload = displayDevelopers;
+  </script>
+
+</body>
+</html>

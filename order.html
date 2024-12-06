@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Plants</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f1f8e9;
+    }
+
+    h1 {
+      text-align: center;
+      color: #000000;
+      margin: 20px 0;
+    }
+
+    form {
+      max-width: 600px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    input, select, textarea, button {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    button {
+      background-color: #4caf50;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+    }
+
+    button:hover {
+      background-color: #388e3c;
+    }
+
+    p {
+      font-weight: bold;
+      color: #1b5e20;
+    }
+
+    #thank-you {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #000000;
+      color: white;
+      text-align: center;
+      padding-top: 100px;
+      z-index: 9999;
+      animation: fadeIn 1.5s ease-in-out;
+    }
+
+    #thank-you h1 {
+      font-size: 48px;
+      margin-bottom: 20px;
+    }
+
+    #thank-you p {
+      font-size: 24px;
+      margin-top: 20px;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    .quote {
+      font-style: italic;
+      font-size: 20px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🌿 Order Your Favorite Plant</h1>
+
+  <form id="order-form" action="https://api.web3forms.com/submit" action="developers.html" method="POST">
+    <!-- Web3Forms API Key -->
+    <input type="hidden" name="access_key" value="25ce0ab8-d37f-4f88-a164-46fd0827c1d4">
+
+    <label for="plant-name">Select a Plant:</label>
+    <select id="plant-name" name="plant-name" required>
+      <option value="" disabled selected>Select a plant</option>
+      <option value="Cacti Plant|199">Cacti Plant - ₹199</option>
+      <option value="Cactus Plant|119">Cactus Plant - ₹119</option>
+      <option value="Aloe Vera Plant|79">Aloe Vera Plant - ₹79</option>
+      <option value="Succulent Plant|59">Succulent Plant - ₹59</option>
+      <option value="Succulent Plant (Large)|109">Succulent Plant (Large) - ₹109</option>
+      <option value="Green Plant|89">Green Plant - ₹89</option>
+      <option value="Snake Plant|159">Snake Plant - ₹159</option>
+      <option value="Peperomia Watermelon Plant|199">Peperomia Watermelon Plant - ₹199</option>
+      <option value="Fern Plant|99">Fern Plant - ₹99</option>
+    </select>
+
+    <label for="address">Delivery Address:</label>
+    <textarea id="address" name="address" rows="4" placeholder="Enter your delivery address..." required></textarea>
+
+    <p id="total-price">Total Price: ₹0</p>
+
+    <button type="button" id="calculate-price">Calculate Price</button>
+    <button type="submit">Place Order</button>
+  </form>
+
+  <div id="thank-you">
+    <h1>🎉 Thank You for Your Order! 🎉</h1>
+    <p>Your plants will arrive soon at your doorstep. 🌱</p>
+    <p class="quote">"Plant a tree today for a better tomorrow." 🌳</p>
+  </div>
+
+  <script>
+    const plantSelect = document.getElementById("plant-name");
+    const totalPriceDisplay = document.getElementById("total-price");
+    const calculateButton = document.getElementById("calculate-price");
+    const form = document.getElementById("order-form");
+    const thankYouSection = document.getElementById("thank-you");
+
+    // Calculate and display total price
+    calculateButton.addEventListener("click", () => {
+      const selectedPlant = plantSelect.value.split("|");
+      if (!selectedPlant || selectedPlant.length !== 2) {
+        alert("Please select a plant.");
+        return;
+      }
+      const price = parseInt(selectedPlant[1]);
+      totalPriceDisplay.textContent = `Total Price: ₹${price}`;
+    });
+
+    // Handle form submission
+    form.addEventListener("submit", (event) => {
+      event.preventDefault(); // Prevent the form's default action
+      const formData = new FormData(form);
+
+      fetch(form.action, {
+        method: "POST",
+        body: formData,
+      })
+        .then((response) => {
+          if (response.ok) {
+            // Display the thank-you message
+            form.style.display = "none";
+            thankYouSection.style.display = "block";
+          } else {
+            alert("Something went wrong! Please try again.");
+          }
+        })
+        .catch(() => {
+          alert("Unable to submit your order. Please check your network connection.");
+        });
+    });
+  </script>
+</body>
+</html>
